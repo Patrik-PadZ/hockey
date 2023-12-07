@@ -1,8 +1,11 @@
 ### README 
-* Get latest `git pull`
-* Run the code in remote mode `node index.js remote`
-* Run the code in local mode `node index.js local`
-* Change data source: We can get data from the api, or local data. Locally we have two versions of the data, one before match start, the other is after match start.
-
 ## How to update the repo
 * `git pull && git add . && git commit -m "update" && git push`
+
+## How to install on Mac
+* [Install nvm](https://medium.com/devops-techable/how-to-install-nvm-node-version-manager-on-macos-with-homebrew-1bc10626181)
+* Install node 18 `nvm install 18`
+* Install git `brew install git`
+* Clone this repo `git clone https://github.com/haidarchikh/hockey.git`
+* Cd into the file and install dependencies `cd hocky && yarn`
+* Run the application `node index.js <remote|local>`
