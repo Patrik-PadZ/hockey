@@ -7,5 +7,5 @@
 * Install node 18 `nvm install 18`
 * Install git `brew install git`
 * Clone this repo `git clone https://github.com/haidarchikh/hockey.git`
-* Cd into the file and install dependencies `cd hocky && yarn`
+* Cd into the file and install dependencies `cd hockey && yarn`
 * Run the application `node index.js <remote|local>`
