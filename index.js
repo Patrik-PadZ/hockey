@@ -1,22 +1,22 @@
 const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs');
 const axios = require('axios');
+const mode = process.argv[2];
+
+const IMAGE_NAME = 'games.png';
 const API_URL = 'https://vmix.hockeyettan.se/api/round/norra';
-const BEFORE = require('./before-start.json');
-const AFTER = require('./after-start.json');
+const UPDATE_INTERVAL = 10; // seconds
 
-async function fetchGameData() {
-    const response = await axios.get(API_URL);
-    return response.data;
+const modes = {
+    local: async ()  => JSON.parse(fs.readFileSync('./local.json', 'utf8')),
+    remote: async () => (await axios.get(API_URL)).data
 }
 
-async function fetchBefore() {
-    return BEFORE
+if (!modes[mode]) {  
+    console.error('Invalid mode specified. Please use "local" or "remote" as an argument.');
+    process.exit(); 
 }
-
-async function fetchAfter() {
-    return AFTER
-}
+console.log(`Score board is running in ${mode} mode`);
 
 async function modify(data) {
     if (!data) { throw new Error("No data") }
@@ -48,10 +48,10 @@ async function modify(data) {
 }
 
 async function createAllGamesImage(games) {
-    if (!games || !games.length) { throw new Error("No game data provided"); }
+    if (!games || !games.length) { throw new Error("No game data is provided"); }
 
     // Each game's display size
-    const gameWidth = 800;
+    const gameWidth = 700;
     const gameHeight = 120;
 
     // Canvas size for vertical arrangement
@@ -75,23 +75,27 @@ async function createAllGamesImage(games) {
 
         // Load and draw away team logo
         const awayLogo = await loadImage(game.awayTeam.logo);
-        ctx.drawImage(awayLogo, 550, yOffset + 60, 150,50);
+        ctx.drawImage(awayLogo, 460, yOffset + 60, 150,50);
 
         // Draw score and text
-        ctx.font = '30px Arial';
+        ctx.font = '25px Arial';
         ctx.fillStyle = 'white';
         ctx.fillText(game.homeTeam.name, 70, yOffset + 50);
-        ctx.fillText(game.awayTeam.name, 570, yOffset + 50);
+        ctx.fillText(game.awayTeam.name, 480, yOffset + 50);
         ctx.font = '60px Arial';
-        ctx.fillText(game.text, 300, yOffset + 100);
+        ctx.fillText(game.text, 250, yOffset + 100);
     }
 
     // Save to a file
     const buffer = canvas.toBuffer('image/png');
-    fs.writeFileSync('allGamesMatchVertical.png', buffer);
+    fs.writeFileSync(IMAGE_NAME, buffer);
+
+    console.log(`Board updated at ${new Date(Date.now()).toLocaleString()}`)
 }
 
-fetchAfter()
-    .then(modify)
-    .then(createAllGamesImage)
-    .catch(error => console.log(error));
+setInterval(() => {
+    modes[mode]()
+        .then(modify)
+        .then(createAllGamesImage)
+        .catch(error => console.log(error));
+}, UPDATE_INTERVAL * 1000);
