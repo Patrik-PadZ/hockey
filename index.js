@@ -2,10 +2,20 @@ const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs');
 const axios = require('axios');
 const API_URL = 'https://vmix.hockeyettan.se/api/round/norra';
+const BEFORE = require('./before-start.json');
+const AFTER = require('./after-start.json');
 
 async function fetchGameData() {
     const response = await axios.get(API_URL);
     return response.data;
+}
+
+async function fetchBefore() {
+    return BEFORE
+}
+
+async function fetchAfter() {
+    return AFTER
 }
 
 async function modify(data) {
@@ -81,7 +91,7 @@ async function createAllGamesImage(games) {
     fs.writeFileSync('allGamesMatchVertical.png', buffer);
 }
 
-fetchGameData()
+fetchAfter()
     .then(modify)
     .then(createAllGamesImage)
     .catch(error => console.log(error));
