@@ -6,6 +6,3 @@
 
 ## How to update the repo
 * `git pull && git add . && git commit -m "update" && git push`
-* `git add .`
-* `git commit -m "update"` the -m is messsage, so you can change the "update" to "change team logo hieght" or something else.
-* `git push` 
