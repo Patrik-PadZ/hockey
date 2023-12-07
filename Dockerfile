@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:18
+FROM node:18-slim
 
 # Create and set the working directory in the container
 WORKDIR /usr/src/app
