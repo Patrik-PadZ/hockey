@@ -51,8 +51,8 @@ async function createAllGamesImage(games) {
     if (!games || !games.length) { throw new Error("No game data provided"); }
 
     // Each game's display size
-    const gameWidth = 1000;
-    const gameHeight = 600;
+    const gameWidth = 800;
+    const gameHeight = 120;
 
     // Canvas size for vertical arrangement
     const canvasWidth = gameWidth;
@@ -67,23 +67,23 @@ async function createAllGamesImage(games) {
 
         // Load and draw background
         const background = await loadImage(game.background);
-        ctx.drawImage(background, 0, yOffset, gameWidth, gameHeight);
+        ctx.drawImage(background, 0, yOffset, gameWidth, 120);
 
         // Load and draw home team logo
         const homeLogo = await loadImage(game.homeTeam.logo);
-        ctx.drawImage(homeLogo, 50, yOffset + 200, 200, 200);
+        ctx.drawImage(homeLogo, 50, yOffset + 60, 150, 50);
 
         // Load and draw away team logo
         const awayLogo = await loadImage(game.awayTeam.logo);
-        ctx.drawImage(awayLogo, 550, yOffset + 200, 200, 200);
+        ctx.drawImage(awayLogo, 550, yOffset + 60, 150,50);
 
         // Draw score and text
-        ctx.font = '40px Arial';
+        ctx.font = '30px Arial';
         ctx.fillStyle = 'white';
-        ctx.fillText(game.homeTeam.name, 50, yOffset + 150);
-        ctx.fillText(game.awayTeam.name, 550, yOffset + 150);
+        ctx.fillText(game.homeTeam.name, 70, yOffset + 50);
+        ctx.fillText(game.awayTeam.name, 570, yOffset + 50);
         ctx.font = '60px Arial';
-        ctx.fillText(game.text, 360, yOffset + 300);
+        ctx.fillText(game.text, 300, yOffset + 100);
     }
 
     // Save to a file
