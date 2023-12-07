@@ -1,6 +1,10 @@
 const { createCanvas, loadImage } = require('canvas');
 const fs = require('fs');
 const axios = require('axios');
+const express = require('express');
+const app = express();
+const PORT = 5000;
+
 const mode = process.argv[2];
 
 const IMAGE_NAME = 'games.png';
@@ -8,7 +12,7 @@ const API_URL = 'https://vmix.hockeyettan.se/api/round/norra';
 const UPDATE_INTERVAL = 10; // seconds
 
 const modes = {
-    local: async ()  => JSON.parse(fs.readFileSync('./local.json', 'utf8')),
+    local: async () => JSON.parse(fs.readFileSync('./local.json', 'utf8')),
     remote: async () => (await axios.get(API_URL)).data
 }
 
@@ -92,6 +96,10 @@ async function createAllGamesImage(games) {
 
     console.log(`Board updated at ${new Date(Date.now()).toLocaleString()}`)
 }
+
+app.get('/', (_, res) => res.sendFile(__dirname + '/' + IMAGE_NAME));
+
+app.listen(PORT, () => console.log(`Server listening at http://localhost:${PORT}`));
 
 setInterval(() => {
     modes[mode]()
