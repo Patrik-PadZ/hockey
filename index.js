@@ -8,7 +8,8 @@ const PORT = 5000;
 const mode = process.argv[2];
 
 const IMAGE_NAME = 'games.png';
-const API_URL = 'https://vmix.hockeyettan.se/api/round/norra';
+const IMAGE_NAME2 = 'games2.png';
+const API_URL = 'https://vmix.hockeyettan.se/api/round/allettan_norra';
 const UPDATE_INTERVAL = 10; // seconds
 
 const modes = {
@@ -93,6 +94,7 @@ async function createAllGamesImage(games) {
     // Save to a file
     const buffer = canvas.toBuffer('image/png');
     fs.writeFileSync(IMAGE_NAME, buffer);
+    fs.writeFileSync(IMAGE_NAME2, buffer);
 
     console.log(`Board updated at ${new Date(Date.now()).toLocaleString()}`)
 }
