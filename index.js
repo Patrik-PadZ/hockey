@@ -21,7 +21,7 @@ if (!modes[mode]) {
     console.error('Invalid mode specified. Please use "local" or "remote" as an argument.');
     process.exit(); 
 }
-console.log(`Score board is running in ${mode} mode`);
+console.log(`Score board is running in :) ${mode} mode`);
 
 async function modify(data) {
     if (!data) { throw new Error("No data") }
